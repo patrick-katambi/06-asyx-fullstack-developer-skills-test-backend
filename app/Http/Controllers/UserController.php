@@ -109,4 +109,52 @@ class UserController extends Controller
                 return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
     }
+
+
+    /**
+     * in order to logout, we will use the user id passed in the request to
+     * delete its corresponding token record in the personal_access_tokens table
+     */
+    public function logOut($user_id)
+    {
+        try {
+            /**
+             * $this->deleteUserToken($user_id)
+             * --> returns '1' if the record is deleted successfully
+             * --> returns '0' if the record couldnot be deleted or does not exist
+             */
+            $record_removed = $this->deleteUserToken($user_id);
+
+            switch ($record_removed) {
+                case 1:
+                    $message = 'SUCCESS';
+                    $remark = 'logged out successfully';
+                    $data = ['record_removed' => $record_removed];
+                    $errors = null;
+
+                    return $this->apiResponse($message,$remark,  $data, $errors);
+
+                case 0:
+                    $message = 'FAILED';
+                    $remark = 'make sure the user_id is valid';
+                    $data = ['record_removed' => $record_removed];
+                    $errors = null;
+                    $statusCode = 400;
+
+                    return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+            }
+        }
+        /**
+         * if any error due to code logic occurs
+         */
+        catch (\Throwable $th) {
+            $message = 'FAILED';
+            $remark = 'Server error';
+            $data = null;
+            $errors = $th;
+            $statusCode = 400;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        }
+    }
 }
