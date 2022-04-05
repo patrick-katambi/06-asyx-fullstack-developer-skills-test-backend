@@ -27,4 +27,32 @@ trait ApiTrait
             'password' => ['required', 'string', 'min:8'],
         ];
     }
+
+
+    /**
+     * returns a User Object after using passed values to
+     * create a user record in the 'users' table
+     */
+
+    protected function saveUser($user_data): User
+    {
+        $user = new User;
+        $user->name = $user_data['name'];
+        $user->email = $user_data['email'];
+        $user->password = $user_data['password'];
+        $user->save();
+
+        return $user;
+    }
+
+
+    /**
+     * token generator
+     */
+
+    protected function generateUserToken(User $user, string $token_name): string
+    {
+        $token = $user->createToken($token_name)->plainTextToken;
+        return $token;
+    }
 }
