@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Models\User;
+use Illuminate\Http\Response;
 
 trait ApiTrait
 {
@@ -54,5 +55,21 @@ trait ApiTrait
     {
         $token = $user->createToken($token_name)->plainTextToken;
         return $token;
+    }
+
+
+    /**
+     * a uniform response method
+     */
+
+    protected function apiResponse(string $message, string $remark = '', $data, $errors, int $statusCode = 200): Response
+    {
+        return response([
+            'statusCode' => $statusCode,
+            'message' => $message,
+            'remark' => $remark,
+            'data' => $data,
+            'errors' => $errors,
+        ], $statusCode);
     }
 }
