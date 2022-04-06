@@ -132,7 +132,7 @@ class UserController extends Controller
                     $data = ['record_removed' => $record_removed];
                     $errors = null;
 
-                    return $this->apiResponse($message,$remark,  $data, $errors);
+                    return $this->apiResponse($message, $remark,  $data, $errors);
 
                 case 0:
                     $message = 'FAILED';
@@ -153,6 +153,35 @@ class UserController extends Controller
             $data = null;
             $errors = $th;
             $statusCode = 400;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        }
+    }
+
+
+    /**
+     * get all users under a particular user group
+     */
+
+    public function getUsersByUserGroup($user_group_id)
+    {
+        try {
+            $user_group = $this->getUserGroupById($user_group_id);
+            $users = $this->getUsersByUserGroupId($user_group_id);
+
+            $message = 'SUCCESS';
+            $remark = 'fetched all users under the ' . $user_group->name . ' user group';
+            $data = $users;
+            $errors = null;
+            $statusCode = 200;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        } catch (\Throwable $th) {
+            $message = 'FAILED';
+            $remark = 'Server error';
+            $data = null;
+            $errors = $th;
+            $statusCode = 500;
 
             return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }

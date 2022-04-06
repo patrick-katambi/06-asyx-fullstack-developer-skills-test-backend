@@ -41,6 +41,7 @@ trait ApiTrait
         $user->name = $user_data['name'];
         $user->email = $user_data['email'];
         $user->password = $user_data['password'];
+        $user->user_group_id = $user_data['user_group_id'];
         $user->save();
 
         return $user;
