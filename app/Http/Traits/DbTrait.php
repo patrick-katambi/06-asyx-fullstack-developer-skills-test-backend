@@ -86,7 +86,7 @@ trait DbTrait
         return $ticket_states;
     }
 
-    protected function getStateById($id) : TicketState
+    protected function getStateById($id): TicketState
     {
         return TicketState::find($id);
     }
@@ -104,7 +104,7 @@ trait DbTrait
         return $ticket_category;
     }
 
-    protected function getTicketCategoryById($id):TicketCategory
+    protected function getTicketCategoryById($id): TicketCategory
     {
         return TicketCategory::find($id);
     }
@@ -178,14 +178,14 @@ trait DbTrait
         foreach ($tickets as $ticket) {
             $caller = $this->getUserById($ticket->caller);
             $created_by = $this->getUserById($ticket->created_by);
-            $user_group = $ticket->assignment_group !== null ? $this->getUserGroupById($ticket->assignment_group): null;
-            $assigned_to = $ticket->assigned_to !== null ? $this->getUserById($ticket->assigned_to): null;
+            $user_group = $ticket->assignment_group !== null ? $this->getUserGroupById($ticket->assignment_group) : null;
+            $assigned_to = $ticket->assigned_to !== null ? $this->getUserById($ticket->assigned_to) : null;
             $category = $this->getTicketCategoryById($ticket->category);
             $impact = $this->getImpactLevelById($ticket->impact);
             $priority = $this->getPriorityById($ticket->priority);
             $state = $this->getStateById($ticket->state);
-            $resolved_by = $ticket->resolved_by !== null ? $this->getUserById($ticket->resolved_by): null;
-            $resolution_code = $ticket->resolution_code !== null ? $this->getResolutionCodeById($ticket->resolution_code): null;
+            $resolved_by = $ticket->resolved_by !== null ? $this->getUserById($ticket->resolved_by) : null;
+            $resolution_code = $ticket->resolution_code !== null ? $this->getResolutionCodeById($ticket->resolution_code) : null;
 
             $new_ticket_instance = [
                 'id' => $ticket->id,
@@ -217,5 +217,4 @@ trait DbTrait
     {
         return User::find($id);
     }
-
 }
