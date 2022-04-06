@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('caller');
-            $table->string('short desc');
             $table->string('description')->nullable();
             $table->string('short desc')->nullable();
             $table->unsignedInteger('created by');
