@@ -5,6 +5,7 @@ namespace App\Http\Traits;
 use App\Models\ImpactLevel;
 use App\Models\Priority;
 use App\Models\ResolutionCode;
+use App\Models\Ticket;
 use App\Models\TicketCategory;
 use App\Models\TicketState;
 use App\Models\User;
@@ -49,6 +50,11 @@ trait DbTrait
         return $priorities;
     }
 
+    protected function getPriorityById($id): Priority
+    {
+        return Priority::find($id);
+    }
+
 
     # IMPACT LEVELS ROUTE
 
@@ -60,6 +66,11 @@ trait DbTrait
     {
         $impact_levels = ImpactLevel::all();
         return $impact_levels;
+    }
+
+    protected function getImpactLevelById($id): ImpactLevel
+    {
+        return ImpactLevel::find($id);
     }
 
 
@@ -75,6 +86,11 @@ trait DbTrait
         return $ticket_states;
     }
 
+    protected function getStateById($id) : TicketState
+    {
+        return TicketState::find($id);
+    }
+
 
     # TICKET CATEGORY ROUTE
 
@@ -88,6 +104,11 @@ trait DbTrait
         return $ticket_category;
     }
 
+    protected function getTicketCategoryById($id):TicketCategory
+    {
+        return TicketCategory::find($id);
+    }
+
 
     # RESOLUTION CODE ROUTE
 
@@ -99,6 +120,11 @@ trait DbTrait
     {
         $resolution_codes = ResolutionCode::all();
         return $resolution_codes;
+    }
+
+    protected function getResolutionCodeById($id): ResolutionCode
+    {
+        return ResolutionCode::find($id);
     }
 
 
@@ -135,4 +161,61 @@ trait DbTrait
         $user_group = UserGroup::find($user_group_id);
         return $user_group;
     }
+
+
+    # TICKETS ROUTE
+
+    /**
+     * get all tickets from the database
+     */
+    protected function getAllTickets()
+    {
+
+        $modified_ticket_response = array();
+
+        $tickets = Ticket::all();
+
+        foreach ($tickets as $ticket) {
+            $caller = $this->getUserById($ticket->caller);
+            $created_by = $this->getUserById($ticket->created_by);
+            $user_group = $ticket->assignment_group !== null ? $this->getUserGroupById($ticket->assignment_group): null;
+            $assigned_to = $ticket->assigned_to !== null ? $this->getUserById($ticket->assigned_to): null;
+            $category = $this->getTicketCategoryById($ticket->category);
+            $impact = $this->getImpactLevelById($ticket->impact);
+            $priority = $this->getPriorityById($ticket->priority);
+            $state = $this->getStateById($ticket->state);
+            $resolved_by = $ticket->resolved_by !== null ? $this->getUserById($ticket->resolved_by): null;
+            $resolution_code = $ticket->resolution_code !== null ? $this->getResolutionCodeById($ticket->resolution_code): null;
+
+            $new_ticket_instance = [
+                'id' => $ticket->id,
+                'caller' => $caller,
+                'description' => $ticket->description,
+                'short_desc' => $ticket->short_desc,
+                'created_by' => $created_by,
+                'due_date' => $ticket->due_date,
+                'user_group' => $user_group,
+                'assigned_to' => $assigned_to,
+                'category' => $category,
+                'impact' => $impact,
+                'priority' => $priority,
+                'state' => $state,
+                'resolved_by' => $resolved_by,
+                'resolution_code' => $resolution_code,
+                'resolution_note' => $ticket->resolution_note,
+                'resolution_date' => $ticket->resolution_date,
+                'created_at' => $ticket->created_at,
+                'updated_at' => $ticket->updated_at,
+            ];
+            array_push($modified_ticket_response, $new_ticket_instance);
+        }
+
+        return $modified_ticket_response;
+    }
+
+    protected function getUserById(int $id): User
+    {
+        return User::find($id);
+    }
+
 }

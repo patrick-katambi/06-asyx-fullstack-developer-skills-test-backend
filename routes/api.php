@@ -4,6 +4,7 @@ use App\Http\Controllers\ImpactLevelController;
 use App\Http\Controllers\PriorityController;
 use App\Http\Controllers\ResolutionCodeController;
 use App\Http\Controllers\TicketCategoryController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketStateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -39,4 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     # user groups
     Route::get('/groups', [UserGroupController::class, 'index']);
+
+    # tickets
+    Route::get('/tickets', [TicketController::class, 'index']);
 });
