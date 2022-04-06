@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ImpactLevel extends Model
 {
     use HasFactory;
+
+    public function tickets() {
+        return $this -> hasMany(Ticket::class, 'impact');
+    }
 }
