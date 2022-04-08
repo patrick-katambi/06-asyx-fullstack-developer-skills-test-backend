@@ -35,4 +35,30 @@ class UserGroupController extends Controller
             return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
     }
+
+    /**
+     * returns a list of users belonging to a particular group / department
+     */
+    public function getUsers($group_id)
+    {
+        try {
+            $users = $this->getUsersByGroupId($group_id);
+
+            $message = 'SUCCESS';
+            $remark = 'all users fetched';
+            $data = $users;
+            $errors = null;
+            $statusCode = 200;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        } catch (\Throwable $th) {
+            $message = 'FAILED';
+            $remark = 'something went wrong';
+            $data = null;
+            $errors = $th;
+            $statusCode = 500;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        }
+    }
 }

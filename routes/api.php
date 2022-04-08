@@ -20,6 +20,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     # user logout
     Route::get('/user/logout/{user_id}', [UserController::class, 'logOut']);
 
+    Route::get('/token', [UserController::class, 'tokenizer']);
+
     # users by group id
     Route::get('/users/{user_group_id}', [UserController::class, 'getUsersByUserGroup']);
 
@@ -40,6 +42,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     # user groups
     Route::get('/groups', [UserGroupController::class, 'index']);
+
+    # users based o the group id
+    Route::get('/groups/{group_id}', [UserGroupController::class, 'getUsers']);
 
     # tickets
     Route::get('/tickets', [TicketController::class, 'index']);

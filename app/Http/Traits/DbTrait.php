@@ -37,6 +37,8 @@ trait DbTrait
         return $recordRemoved;
     }
 
+    // protected function deleteUserToken
+
 
     # PRIORITY ROUTE
 
@@ -138,6 +140,12 @@ trait DbTrait
     {
         $user_groups = UserGroup::all();
         return $user_groups;
+    }
+
+    protected function getUsersByGroupId($group_id)
+    {
+        $users = UserGroup::find($group_id)->users;
+        return $users;
     }
 
 

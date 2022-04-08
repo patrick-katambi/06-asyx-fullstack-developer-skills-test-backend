@@ -44,7 +44,7 @@ class UserController extends Controller
                 $remark = '';
                 $data = null;
                 $errors = $user_validator->errors();
-                $statusCode = 400;
+                $statusCode = 200;
 
                 return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
@@ -91,7 +91,7 @@ class UserController extends Controller
                         $remark = '';
                         $data = null;
                         $errors = "user with email < {$user_data['email']} > does not exist";
-                        $statusCode = 400;
+                        $statusCode = 200;
 
                         return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
                 }
@@ -104,7 +104,7 @@ class UserController extends Controller
                 $remark = '';
                 $data = null;
                 $errors = $user_validator->errors();
-                $statusCode = 400;
+                $statusCode = 200;
 
                 return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
@@ -115,7 +115,7 @@ class UserController extends Controller
      * in order to logout, we will use the user id passed in the request to
      * delete its corresponding token record in the personal_access_tokens table
      */
-    public function logOut($user_id)
+    public function logOut(Request $request, $user_id)
     {
         try {
             /**
@@ -123,6 +123,7 @@ class UserController extends Controller
              * --> returns '1' if the record is deleted successfully
              * --> returns '0' if the record couldnot be deleted or does not exist
              */
+            $requestToken = $request->bearerToken();
             $record_removed = $this->deleteUserToken($user_id);
 
             switch ($record_removed) {
@@ -185,5 +186,9 @@ class UserController extends Controller
 
             return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
+    }
+
+    public function tokenizer(Request $request) {
+        return response(['token' => $request->bearerToken()]);
     }
 }
