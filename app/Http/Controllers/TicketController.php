@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Traits\ApiTrait;
 use App\Http\Traits\DbTrait;
 
@@ -26,7 +27,6 @@ class TicketController extends Controller
             $statusCode = 200;
 
             return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
-
         } catch (\Throwable $th) {
             $message = 'FAILED';
             $remark = 'something went wrong';
@@ -48,6 +48,32 @@ class TicketController extends Controller
 
             $message = 'SUCCESS';
             $remark = 'ticket created';
+            $data = $ticket;
+            $errors = null;
+            $statusCode = 200;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        } catch (\Throwable $th) {
+            $message = 'FAILED';
+            $remark = 'something went wrong';
+            $data = null;
+            $errors = $th;
+            $statusCode = 500;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        }
+    }
+
+    /**
+     * get ticket by passing the ticket id
+     */
+    public function getTicket($ticket_id)
+    {
+        try {
+            $ticket = $this->findTicketById($ticket_id);
+
+            $message = 'SUCCESS';
+            $remark = 'ticket retrieved';
             $data = $ticket;
             $errors = null;
             $statusCode = 200;

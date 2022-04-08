@@ -251,4 +251,9 @@ trait DbTrait
         $new_ticket = Ticket::create($new_ticket_attributes);
         return $new_ticket;
     }
+
+    protected function findTicketById($ticket_id):Ticket
+    {
+        return Ticket::find($ticket_id);
+    }
 }

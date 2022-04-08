@@ -52,4 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     # create ticket
     Route::post('/tickets/create', [TicketController::class, 'create']);
+
+    # retrieve ticket
+    Route::get('/tickets/{ticket_id}', [TicketController::class, 'getTicket']);
 });
