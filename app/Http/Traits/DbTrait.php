@@ -226,7 +226,7 @@ trait DbTrait
         return User::find($id);
     }
 
-    protected function createTicket(Request $request) : Ticket
+    protected function createTicket(Request $request): Ticket
     {
         $new_ticket_attributes = [
             'id' => $request->id,
@@ -252,8 +252,56 @@ trait DbTrait
         return $new_ticket;
     }
 
-    protected function findTicketById($ticket_id):Ticket
+    protected function findTicketById($ticket_id): Ticket
     {
         return Ticket::find($ticket_id);
+    }
+
+    protected function updatingTicket(Request $request) : Ticket
+    {
+        $new_ticket_attributes = [
+            'id' => $request->id,
+            'caller' => $request->caller,
+            'description' => $request->description,
+            'short_desc' => $request->short_desc,
+            'created_by' => $request->created_by,
+            'due_date' => $request->due_date,
+            'assignment_group' => $request->user_group,
+            'assigned_to' => $request->assigned_to,
+            'category' => $request->category,
+            'impact' => $request->impact,
+            'priority' => $request->priority,
+            'state' => $request->state,
+            'resolved_by' => $request->resolved_by,
+            'resolution_code' => $request->resolution_code,
+            'resolution_note' => $request->resolution_note,
+            'resolution_date' => $request->resolution_date,
+            'created_at' => $request->created_at,
+            'updated_at' => $request->updated_at,
+        ];
+        $ticket = Ticket::find($request->id);
+
+        $ticket->id = $request->id;
+        $ticket->caller = $request->caller;
+        $ticket->description = $request->description;
+        $ticket->short_desc = $request->short_desc;
+        $ticket->created_by = $request->created_by;
+        $ticket->due_date = $request->due_date;
+        $ticket->assignment_group = $request->user_group;
+        $ticket->assigned_to = $request->assigned_to;
+        $ticket->category = $request->category;
+        $ticket->impact = $request->impact;
+        $ticket->priority = $request->priority;
+        $ticket->state = $request->state;
+        $ticket->resolved_by = $request->resolved_by;
+        $ticket->resolution_code = $request->resolution_code;
+        $ticket->resolution_note = $request->resolution_note;
+        $ticket->resolution_date = $request->resolution_date;
+        $ticket->created_at = $request->created_at;
+        $ticket->updated_at = $request->updated_at;
+
+        $ticket->save();
+
+        return $ticket;
     }
 }

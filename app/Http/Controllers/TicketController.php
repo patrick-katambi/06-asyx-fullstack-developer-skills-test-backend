@@ -89,4 +89,30 @@ class TicketController extends Controller
             return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
     }
+
+    /**
+     * update ticket by passing the ticket id
+     */
+    public function updateTicket(Request $request)
+    {
+        try {
+            $ticket = $this->updatingTicket($request);
+
+            $message = 'SUCCESS';
+            $remark = 'ticket updated';
+            $data = $ticket;
+            $errors = null;
+            $statusCode = 200;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        } catch (\Throwable $th) {
+            $message = 'FAILED';
+            $remark = 'something went wrong';
+            $data = null;
+            $errors = $th;
+            $statusCode = 500;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        }
+    }
 }

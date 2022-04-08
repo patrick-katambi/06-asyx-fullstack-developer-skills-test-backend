@@ -55,4 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     # retrieve ticket
     Route::get('/tickets/{ticket_id}', [TicketController::class, 'getTicket']);
+
+    # update ticket
+    Route::post('/tickets/update', [TicketController::class, 'updateTicket']);
 });
