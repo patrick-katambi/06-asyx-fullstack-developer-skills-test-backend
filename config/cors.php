@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    'allowed_origins' => [env('FRONTEND_URL', 'https://asyx-fullstack-developer-skills-test-frontend-i3gtru7ib.vercel.app/')],
 
     'allowed_origins_patterns' => [],
 
