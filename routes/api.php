@@ -47,5 +47,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/groups/{group_id}', [UserGroupController::class, 'getUsers']);
 
     # tickets
+    # get all tickets
     Route::get('/tickets', [TicketController::class, 'index']);
+
+    # create ticket
+    Route::post('/tickets/create', [TicketController::class, 'create']);
 });

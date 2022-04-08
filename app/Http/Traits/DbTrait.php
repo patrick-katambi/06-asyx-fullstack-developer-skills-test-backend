@@ -10,6 +10,7 @@ use App\Models\TicketCategory;
 use App\Models\TicketState;
 use App\Models\User;
 use App\Models\UserGroup;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 trait DbTrait
@@ -184,7 +185,6 @@ trait DbTrait
         $tickets = Ticket::all();
 
         foreach ($tickets as $ticket) {
-            $caller = $this->getUserById($ticket->caller);
             $created_by = $this->getUserById($ticket->created_by);
             $user_group = $ticket->assignment_group !== null ? $this->getUserGroupById($ticket->assignment_group) : null;
             $assigned_to = $ticket->assigned_to !== null ? $this->getUserById($ticket->assigned_to) : null;
@@ -197,7 +197,7 @@ trait DbTrait
 
             $new_ticket_instance = [
                 'id' => $ticket->id,
-                'caller' => $caller,
+                'caller' => $ticket->caller,
                 'description' => $ticket->description,
                 'short_desc' => $ticket->short_desc,
                 'created_by' => $created_by,
@@ -224,5 +224,31 @@ trait DbTrait
     protected function getUserById(int $id): User
     {
         return User::find($id);
+    }
+
+    protected function createTicket(Request $request) : Ticket
+    {
+        $new_ticket_attributes = [
+            'id' => $request->id,
+            'caller' => $request->caller,
+            'description' => $request->description,
+            'short_desc' => $request->short_desc,
+            'created_by' => $request->created_by,
+            'due_date' => $request->due_date,
+            'assignment_group' => $request->user_group,
+            'assigned_to' => $request->assigned_to,
+            'category' => $request->category,
+            'impact' => $request->impact,
+            'priority' => $request->priority,
+            'state' => $request->state,
+            'resolved_by' => $request->resolved_by,
+            'resolution_code' => $request->resolution_code,
+            'resolution_note' => $request->resolution_note,
+            'resolution_date' => $request->resolution_date,
+            'created_at' => $request->created_at,
+            'updated_at' => $request->updated_at,
+        ];
+        $new_ticket = Ticket::create($new_ticket_attributes);
+        return $new_ticket;
     }
 }

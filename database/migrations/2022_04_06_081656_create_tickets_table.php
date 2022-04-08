@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->string('id');
-            $table->unsignedInteger('caller');
+            $table->string('caller');
+            // $table->unsignedInteger('caller');
             $table->string('description')->nullable();
             $table->string('short_desc')->nullable();
             $table->unsignedInteger('created_by');
@@ -31,7 +32,7 @@ return new class extends Migration
             $table->string('resolution_note')->nullable();
             $table->date('resolution_date')->nullable();
             $table->timestamps();
-            $table->foreign('caller')->references('id')->on('users');
+            // $table->foreign('caller')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('resolved_by')->references('id')->on('users');
             $table->foreign('resolution_code')->references('id')->on('resolution_codes');

@@ -67,8 +67,8 @@ insert INTO users (name, email, user_group_id, password) VALUES ('Auba Robson', 
 
 -- tickets table
 insert into tickets (id, caller, description, short_desc, created_by, due_date, assignment_group, assigned_to, category, impact, priority, state)
-VALUES ('2022-01', 2, 'keyboard problem since monday', 'keyboard issue', 5, NULL, 4, 15, 1, 2, 3, 1);
+VALUES ('2022-01', 'caller 1', 'keyboard problem since monday', 'keyboard issue', 5, NULL, 4, 15, 1, 2, 3, 1);
 insert into tickets (id, caller, description, short_desc, created_by, due_date, assignment_group, assigned_to, category, impact, priority, state)
-VALUES ('2022-02', 3, 'printer problem since last week', 'printer issue', 6, NULL, 4, 14, 1, 3, 4, 2);
+VALUES ('2022-02', 'caller 2', 'printer problem since last week', 'printer issue', 6, NULL, 4, 14, 1, 3, 4, 2);
 insert into tickets (id, caller, description, short_desc, created_by, due_date, assignment_group, assigned_to, category, impact, priority, state)
-VALUES ('2022-03', 1, 'windows 11 doesnt install Witcher', 'Software issue', 9, NULL, 3, 10, 2, 1, 1, 1);
+VALUES ('2022-03', 'caller 3', 'windows 11 doesnt install Witcher', 'Software issue', 9, NULL, 3, 10, 2, 1, 1, 1);

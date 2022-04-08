@@ -37,4 +37,30 @@ class TicketController extends Controller
             return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
         }
     }
+
+    /**
+     * creating a ticket
+     */
+    public function create(Request $request)
+    {
+        try {
+            $ticket = $this->createTicket($request);
+
+            $message = 'SUCCESS';
+            $remark = 'ticket created';
+            $data = $ticket;
+            $errors = null;
+            $statusCode = 200;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        } catch (\Throwable $th) {
+            $message = 'FAILED';
+            $remark = 'something went wrong';
+            $data = null;
+            $errors = $th;
+            $statusCode = 500;
+
+            return $this->apiResponse($message, $remark, $data, $errors, $statusCode);
+        }
+    }
 }
